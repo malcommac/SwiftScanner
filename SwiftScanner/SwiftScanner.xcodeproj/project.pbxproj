@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080A36511DF2D60400F94301 /* file.txt in Resources */ = {isa = PBXBuildFile; fileRef = 080A36501DF2D60400F94301 /* file.txt */; };
 		08906C4F1DF1A90400FC4209 /* SwiftScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 08906C4D1DF1A90400FC4209 /* SwiftScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08906C601DF1BBDE00FC4209 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C5F1DF1BBDE00FC4209 /* AppDelegate.swift */; };
 		08906C621DF1BBDE00FC4209 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C611DF1BBDE00FC4209 /* ViewController.swift */; };
@@ -15,7 +16,6 @@
 		08906C6A1DF1BBDE00FC4209 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08906C681DF1BBDE00FC4209 /* LaunchScreen.storyboard */; };
 		08906C711DF1BBEB00FC4209 /* SwiftScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; };
 		08906C731DF1BC4600FC4209 /* SwiftScanner.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		08906C761DF1C56C00FC4209 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C741DF1C56C00FC4209 /* String+Extensions.swift */; };
 		08906C771DF1C56C00FC4209 /* StringScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C751DF1C56C00FC4209 /* StringScanner.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		080A36501DF2D60400F94301 /* file.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = file.txt; path = ../../../SwiftStyler/SwiftStyler/file.txt; sourceTree = "<group>"; };
 		08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftScanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08906C4D1DF1A90400FC4209 /* SwiftScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftScanner.h; sourceTree = "<group>"; };
 		08906C4E1DF1A90400FC4209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,7 +55,6 @@
 		08906C661DF1BBDE00FC4209 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08906C691DF1BBDE00FC4209 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		08906C6B1DF1BBDE00FC4209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08906C741DF1C56C00FC4209 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "../../Sources/String+Extensions.swift"; sourceTree = "<group>"; };
 		08906C751DF1C56C00FC4209 /* StringScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringScanner.swift; path = ../../Sources/StringScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,7 +98,6 @@
 		08906C4C1DF1A90400FC4209 /* SwiftScanner */ = {
 			isa = PBXGroup;
 			children = (
-				08906C741DF1C56C00FC4209 /* String+Extensions.swift */,
 				08906C751DF1C56C00FC4209 /* StringScanner.swift */,
 				08906C4D1DF1A90400FC4209 /* SwiftScanner.h */,
 				08906C4E1DF1A90400FC4209 /* Info.plist */,
@@ -112,6 +111,7 @@
 				08906C5F1DF1BBDE00FC4209 /* AppDelegate.swift */,
 				08906C611DF1BBDE00FC4209 /* ViewController.swift */,
 				08906C631DF1BBDE00FC4209 /* Main.storyboard */,
+				080A36501DF2D60400F94301 /* file.txt */,
 				08906C661DF1BBDE00FC4209 /* Assets.xcassets */,
 				08906C681DF1BBDE00FC4209 /* LaunchScreen.storyboard */,
 				08906C6B1DF1BBDE00FC4209 /* Info.plist */,
@@ -226,6 +226,7 @@
 			files = (
 				08906C6A1DF1BBDE00FC4209 /* LaunchScreen.storyboard in Resources */,
 				08906C671DF1BBDE00FC4209 /* Assets.xcassets in Resources */,
+				080A36511DF2D60400F94301 /* file.txt in Resources */,
 				08906C651DF1BBDE00FC4209 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,7 +238,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08906C761DF1C56C00FC4209 /* String+Extensions.swift in Sources */,
 				08906C771DF1C56C00FC4209 /* StringScanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
