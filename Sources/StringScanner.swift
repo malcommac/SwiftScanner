@@ -128,32 +128,68 @@ public class StringScanner {
 		return parsedInt
 	}
 	
+	/// Peek until chracter is found starting from current scanner index.
+	/// Scanner's position is never updated.
+	/// Throw an exception if .eof is reached or .failed if char was not found.
+	///
+	/// - Parameter char: char to search
+	/// - Returns: the index found
+	/// - Throws: throw an exception on .eof or .failed
 	public func peek(upTo char: UnicodeScalar) throws -> SIndex {
 		return try self.move(peek: true, upTo: char).index
 	}
 	
+	
+	/// Scan until chracter is found starting from current scanner index.
+	/// Scanner's position is updated when character is found.
+	/// Throw an exception if .eof is reached or .failed if char was not found (in this case scanner's position is not updated)
+	///
+	/// - Parameter char: char to search
+	/// - Returns: the string until the character (excluded)
+	/// - Throws: throw an exception on .eof or .failed
 	public func scan(upTo char: UnicodeScalar) throws -> String {
 		return try self.move(peek: false, upTo: char).string!
 	}
 	
-	private func move(peek: Bool, upTo char: UnicodeScalar) throws -> (index: SIndex, string: String?) {
-		return try self.session(peek: peek, accumulate: true, block: { i,c in
-			// continue moving forward until we reach the end of scanner's string
-			// or current character at scanner's string current position differs from we are searching for
-			while i != self.string.endIndex && self.string[i] != char {
-				i = self.string.index(after: i)
-				c += 1
-			}
-			if i == self.string.endIndex { // we have reached the end of scanner's string
-				throw StringScannerError.eof
-			}
-		})
+	/// Peek until one the characters specified by set is encountered
+	/// Index is reported before the start of the sequence, but scanner position is not updated
+	/// Throw an exception if .eof is reached or .failed if sequence was not found
+	///
+	/// - Parameter charSet: character set to search
+	/// - Returns: found index
+	/// - Throws: throw .eof or .failed
+	public func peek(upTo charSet: CharacterSet) throws -> SIndex {
+		return self.move(peek: true, accumulate: false, upToCharSet: charSet).index
 	}
 	
+	
+	/// Scan until one the characters specified by set is encountered
+	/// Index is reported before the start of the sequence, scanner position is updated only if sequence is found.
+	/// Throw an exception if .eof is reached or .failed if sequence was not found
+	///
+	/// - Parameter charSet: character set to search
+	/// - Returns: found index
+	/// - Throws: throw .eof or .failed
+	public func scan(upTo charSet: CharacterSet) throws -> String {
+		return self.move(peek: false, accumulate: true, upToCharSet: charSet).string!
+	}
+	
+	
+	/// Iterate until specified string is encountered without updating indexes
+	///
+	/// - Parameter string: string to search
+	/// - Returns: index where found string was found
+	/// - Throws: throw .eof or .failedtosearch
 	public func peek(upTo string: String) throws -> SIndex {
 		return try self.move(peek: true, upTo: string).index
 	}
 	
+	/// Scan until specified string is encountered and update indexes if found
+	/// Throw an exception if .eof is reached or string cannot be found
+	///
+	/// - Parameter string: string to search
+	/// - Returns: string up to search string (excluded)
+	/// - Throws: throw .eof or .failedtosearch
 	public func scan(upTo string: String) throws -> String {
 		return try self.move(peek: false, upTo: string).string!
 	}
@@ -202,7 +238,6 @@ public class StringScanner {
 	public func read(untilTrue test: ((UnicodeScalar) -> (Bool)) ) {
 		self.move(peek: false, accumulate: false, untilTrue: test)
 	}
-	
 	
 	///  Peeks at the scalar at the current position, testing it with function test.
 	///  It only peeks so current scanner position and consumed are not increased at the end of the operation
@@ -270,6 +305,36 @@ public class StringScanner {
 	
 	// -- Private Funcs --
 	
+	@discardableResult
+	private func move(peek: Bool, upTo char: UnicodeScalar) throws -> (index: SIndex, string: String?) {
+		return try self.session(peek: peek, accumulate: true, block: { i,c in
+			// continue moving forward until we reach the end of scanner's string
+			// or current character at scanner's string current position differs from we are searching for
+			while i != self.string.endIndex && self.string[i] != char {
+				i = self.string.index(after: i)
+				c += 1
+			}
+			if i == self.string.endIndex { // we have reached the end of scanner's string
+				throw StringScannerError.eof
+			}
+		})
+	}
+	
+	@discardableResult
+	private func move(peek: Bool, accumulate: Bool, upToCharSet charSet: CharacterSet) -> (index: SIndex, string: String?) {
+		return try! self.session(peek: peek, accumulate: accumulate, block: { i,c in
+			// continue moving forward until we reach the end of scanner's string
+			// or current character at scanner's string current position differs from we are searching for
+			while i != self.string.endIndex && charSet.contains(self.string[i]) == false {
+				i = self.string.index(after: i)
+				c += 1
+			}
+			if i == self.string.endIndex { // we have reached the end of scanner's string
+				throw StringScannerError.eof
+			}
+		})
+	}
+
 	@discardableResult
 	public func move(peek: Bool, accumulate: Bool, untilTrue test: ((UnicodeScalar) -> (Bool)) ) -> (index: SIndex, string: String?) {
 		return try! self.session(peek: peek, accumulate: accumulate, block: { i,c in
