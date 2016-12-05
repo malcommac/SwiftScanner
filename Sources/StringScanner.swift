@@ -37,7 +37,7 @@ public enum StringScannerError: Error {
 	case eof
 	case invalidInput
 	case intExpected(consumed: Int)
-	case failed(search: String, consumed: Int)
+	case failed(search: String?, consumed: Int)
 }
 
 public class StringScanner {
@@ -175,6 +175,30 @@ public class StringScanner {
 	}
 	
 	
+	/// Scan until the next character of the scanner is contained into given character set
+	/// Scanner's position is updated automatically at the end of the sequence if validated, otherwise it will not touched.
+	///
+	/// - Parameter charSet: chracters set
+	/// - Returns: the string accumulated scanning until chars set is evaluated
+	/// - Throws: throw .eof or .failed
+	public func scan(untilIn charSet: CharacterSet) throws -> String {
+		return try self.move(peek: false, accumulate: true, untilIn: charSet).string!
+	}
+	
+	/// Peek until the next character of the scanner is contained into given.
+	/// Scanner's position is never updated.
+	///
+	/// - Parameter charSet: characters set to evaluate
+	/// - Returns: the index at the end of the sequence
+	/// - Throws: throw .eof or .failedtosearch
+	public func peek(untilIn charSet: CharacterSet) throws -> SIndex {
+		let prevConsumed = self.consumed
+		let prevIndex = self.position
+		let (_,_) = try self.move(peek: true, accumulate: false, untilIn: charSet)
+		let endIndex = self.string.index(prevIndex, offsetBy: (self.consumed - prevConsumed))
+		return endIndex
+	}
+	
 	/// Iterate until specified string is encountered without updating indexes
 	///
 	/// - Parameter string: string to search
@@ -304,6 +328,22 @@ public class StringScanner {
 	}
 	
 	// -- Private Funcs --
+	
+	private func move(peek: Bool, accumulate: Bool, untilIn charSet: CharacterSet) throws -> (index: SIndex, string: String?) {
+		if charSet.contains(self.string[self.position]) == false {
+			throw StringScannerError.failed(search: nil, consumed: self.consumed)
+		}
+		
+		return try self.session(peek: peek, accumulate: accumulate, block: { i,c in
+			while i != self.string.endIndex && charSet.contains(self.string[i]) {
+				i = self.string.index(after: i)
+				c += 1
+			}
+			if i == self.string.endIndex { // we have reached the end of scanner's string
+				throw StringScannerError.eof
+			}
+		})
+	}
 	
 	@discardableResult
 	private func move(peek: Bool, upTo char: UnicodeScalar) throws -> (index: SIndex, string: String?) {
