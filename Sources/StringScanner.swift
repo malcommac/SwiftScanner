@@ -27,6 +27,7 @@
 
 
 import Foundation
+import Darwin
 
 /// Throwable errors of the scanner
 ///
@@ -37,7 +38,25 @@ public enum StringScannerError: Error {
 	case eof
 	case invalidInput
 	case intExpected(consumed: Int)
+	case floatExpected(consumed: Int)
+	case hexExpected(consumed: Int)
 	case failed(search: String?, consumed: Int)
+}
+
+public enum BitDigits: Int {
+	case bit8	= 8
+	case bit16	= 16
+	case bit32	= 32
+	case bit64	= 64
+	
+	var length: Int {
+		switch self {
+		case .bit8:		return 2
+		case .bit16:	return 4
+		case .bit32:	return 8
+		case .bit64:	return 16
+		}
+	}
 }
 
 public class StringScanner {
@@ -128,6 +147,71 @@ public class StringScanner {
 		return parsedInt
 	}
 	
+	public func scanFloat() throws -> Float {
+		let prevConsumed = self.consumed
+		
+		func throwAndBackBy(length: Int) {
+			self.position = self.string.index(self.position, offsetBy: -length)
+			self.consumed -= length
+		}
+		
+		guard let strValue = try self.scan(untilIn: CharacterSet(charactersIn: "-+0123456789.")) else {
+			throw StringScannerError.floatExpected(consumed: (self.consumed - prevConsumed) )
+		}
+		guard let value = Float(strValue) else {
+			throw StringScannerError.floatExpected(consumed: (self.consumed - prevConsumed) )
+		}
+		return value
+	}
+	
+	public func scanInt(_ digits: BitDigits = .bit16) throws -> Int {
+		let strValue = try self.read(length: digits.length)
+		guard let parsedInt = Int(strValue) else {
+			throw StringScannerError.intExpected(consumed: self.consumed)
+		}
+		return parsedInt
+	}
+	
+	/// Scan an HEX digit expressed as 0x/0X<number> or #<number> where number is the value expressed with according bit number
+	/// If scan works it return parsed value and both position and consumed are updated according to value
+	/// If scan fail with throw nothing is updated
+	///
+	/// - Parameter digits: type of digits to parse
+	/// - Returns: the int value
+	/// - Throws: throw .hexExpected if value is not expressed in HEX string according to specified digits
+	public func scanHexInt(_ digits: BitDigits = .bit16) throws -> Int {
+
+		func parseHexInt(_ digits: BitDigits, _ consumed: inout Int) throws -> Int {
+			let strValue = try self.read(length: digits.length)
+			consumed += digits.length
+			guard let parsedInt = Int(strValue, radix: 16) else {
+				throw StringScannerError.hexExpected(consumed: self.consumed)
+			}
+			return parsedInt
+		}
+		
+		var value: Int = 0
+		var consumed: Int = 0
+		if self.string[self.position] == "#" {
+			try self.move(1, accumulate: false)
+			consumed += 1
+			value = try parseHexInt(digits, &consumed)
+		} else {
+			do {
+				let prefix = try self.read(length: 2).uppercased()
+				consumed += 2
+				guard prefix == "0X" else {
+					throw StringScannerError.hexExpected(consumed: self.consumed)
+				}
+				value = try parseHexInt(digits, &consumed)
+			} catch {
+				try! self.back(length: consumed)
+				throw StringScannerError.hexExpected(consumed: self.consumed)
+			}
+		}
+		return value
+	}
+	
 	/// Peek until chracter is found starting from current scanner index.
 	/// Scanner's position is never updated.
 	/// Throw an exception if .eof is reached or .failed if char was not found.
@@ -147,8 +231,8 @@ public class StringScanner {
 	/// - Parameter char: char to search
 	/// - Returns: the string until the character (excluded)
 	/// - Throws: throw an exception on .eof or .failed
-	public func scan(upTo char: UnicodeScalar) throws -> String {
-		return try self.move(peek: false, upTo: char).string!
+	public func scan(upTo char: UnicodeScalar) throws -> String? {
+		return try self.move(peek: false, upTo: char).string
 	}
 	
 	/// Peek until one the characters specified by set is encountered
@@ -159,7 +243,7 @@ public class StringScanner {
 	/// - Returns: found index
 	/// - Throws: throw .eof or .failed
 	public func peek(upTo charSet: CharacterSet) throws -> SIndex {
-		return self.move(peek: true, accumulate: false, upToCharSet: charSet).index
+		return try self.move(peek: true, accumulate: false, upToCharSet: charSet).index
 	}
 	
 	
@@ -170,8 +254,8 @@ public class StringScanner {
 	/// - Parameter charSet: character set to search
 	/// - Returns: found index
 	/// - Throws: throw .eof or .failed
-	public func scan(upTo charSet: CharacterSet) throws -> String {
-		return self.move(peek: false, accumulate: true, upToCharSet: charSet).string!
+	public func scan(upTo charSet: CharacterSet) throws -> String? {
+		return try self.move(peek: false, accumulate: true, upToCharSet: charSet).string
 	}
 	
 	
@@ -181,8 +265,8 @@ public class StringScanner {
 	/// - Parameter charSet: chracters set
 	/// - Returns: the string accumulated scanning until chars set is evaluated
 	/// - Throws: throw .eof or .failed
-	public func scan(untilIn charSet: CharacterSet) throws -> String {
-		return try self.move(peek: false, accumulate: true, untilIn: charSet).string!
+	public func scan(untilIn charSet: CharacterSet) throws -> String? {
+		return try self.move(peek: false, accumulate: true, untilIn: charSet).string
 	}
 	
 	/// Peek until the next character of the scanner is contained into given.
@@ -214,8 +298,9 @@ public class StringScanner {
 	/// - Parameter string: string to search
 	/// - Returns: string up to search string (excluded)
 	/// - Throws: throw .eof or .failedtosearch
-	public func scan(upTo string: String) throws -> String {
-		return try self.move(peek: false, upTo: string).string!
+	@discardableResult
+	public func scan(upTo string: String) throws -> String? {
+		return try self.move(peek: false, upTo: string).string
 	}
 	
 	/// Throw if the scalar at the current position don't match given scalar.
@@ -223,6 +308,7 @@ public class StringScanner {
 	///
 	/// - Parameter char: char to match
 	/// - Throws: throw if does not match or index reaches eof
+	@discardableResult
 	public func match(_ char: UnicodeScalar) throws {
 		guard self.position != self.string.endIndex else {
 			throw StringScannerError.eof
@@ -278,15 +364,25 @@ public class StringScanner {
 	/// - Parameter length: length to advance
 	/// - Throws: throw if .eof
 	public func skip(length: Int = 1) throws {
+		try self.move(length, accumulate: false)
+	}
+	
+	public func read(length: Int = 1) throws -> String {
+		return try self.move(length, accumulate: true).string!
+	}
+	
+	@discardableResult
+	public func move(_ length: Int = 1, accumulate: Bool) throws -> (index: SIndex, string: String?) {
 		if length == 1 && self.position != self.string.endIndex {
 			self.position = self.string.index(after: self.position)
 			self.consumed += 1
-			return
+			return (self.position, String(self.string[self.string.index(before: self.position)]))
 		}
 		
 		// Use temporary indexes and don't touch the real ones until we are
 		// sure the operation succeded
 		var proposedIdx = self.position
+		var initialPosition = self.position
 		var proposedConsumed = 0
 		
 		var remaining = length
@@ -298,9 +394,20 @@ public class StringScanner {
 			proposedConsumed += 1
 			remaining -= 1
 		}
+		
+		var result: String? = nil
+		if accumulate == true {
+			result = ""
+			result!.reserveCapacity( (proposedConsumed - self.consumed) ) // just an optimization
+			while initialPosition != proposedIdx {
+				result!.unicodeScalars.append(self.string[initialPosition])
+				initialPosition = self.string.index(after: initialPosition)
+			}
+		}
 		// Write changes only if skip operation succeded
 		self.position = proposedIdx
 		self.consumed = proposedConsumed
+		return (self.position,result)
 	}
 	
 	
@@ -339,9 +446,6 @@ public class StringScanner {
 				i = self.string.index(after: i)
 				c += 1
 			}
-			if i == self.string.endIndex { // we have reached the end of scanner's string
-				throw StringScannerError.eof
-			}
 		})
 	}
 	
@@ -354,23 +458,17 @@ public class StringScanner {
 				i = self.string.index(after: i)
 				c += 1
 			}
-			if i == self.string.endIndex { // we have reached the end of scanner's string
-				throw StringScannerError.eof
-			}
 		})
 	}
 	
 	@discardableResult
-	private func move(peek: Bool, accumulate: Bool, upToCharSet charSet: CharacterSet) -> (index: SIndex, string: String?) {
-		return try! self.session(peek: peek, accumulate: accumulate, block: { i,c in
+	private func move(peek: Bool, accumulate: Bool, upToCharSet charSet: CharacterSet) throws -> (index: SIndex, string: String?) {
+		return try self.session(peek: peek, accumulate: accumulate, block: { i,c in
 			// continue moving forward until we reach the end of scanner's string
 			// or current character at scanner's string current position differs from we are searching for
 			while i != self.string.endIndex && charSet.contains(self.string[i]) == false {
 				i = self.string.index(after: i)
 				c += 1
-			}
-			if i == self.string.endIndex { // we have reached the end of scanner's string
-				throw StringScannerError.eof
 			}
 		})
 	}
@@ -476,6 +574,10 @@ public class StringScanner {
 		
 		// execute the real code into block
 		try block(&sessionPosition,&sessionConsumed)
+		
+		if sessionConsumed == 0 {
+			return (sessionPosition,nil)
+		}
 			
 		var result: String? = nil
 		if accumulate == true {
