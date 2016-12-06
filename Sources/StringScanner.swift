@@ -149,9 +149,9 @@ public class StringScanner {
 	}
 	
 	/// Scan the next integer value after the current scalar position; consume scalars from {0..9} until a non numeric
-	/// value is encontered. Return the integer representation in base 10.
+	/// value is encountered. Return the integer representation in base 10.
 	/// `position` index is advanced to the end of the number.
-	/// Throws .invalidInt if scalar at the current `index` is not in the range `"0"` to `"9"`
+	/// Throws .invalidInt if scalar at the current `position` is not in the range `"0"` to `"9"`
 	///
 	/// - Returns: read integer in base 10
 	/// - Throws: throw .invalidInt if non numeric value is encountered
