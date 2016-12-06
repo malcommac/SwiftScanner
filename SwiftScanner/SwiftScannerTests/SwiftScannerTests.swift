@@ -209,6 +209,46 @@ class SwiftScannerTests: XCTestCase {
 
 	}
 	
+	func testPeekUpToChar() {
+		let test = "abc;defg;hilmn;"
+		let validDistances = [3,4,5]
+		let scanner = StringScanner(test)
+		var idx = 0
+		
+		do {
+			while !scanner.isAtEnd  {
+				let currentPosition = scanner.position
+				let separatorPosition = try scanner.peek(upTo: ";")
+				let distance = scanner.string.distance(from: currentPosition, to: separatorPosition)
+				try scanner.skip(length: distance+1)
+				XCTAssert( (distance == validDistances[idx]) , "Failed to validate peek(upTo:<UnicodeScalar>)")
+				idx += 1
+			}
+		} catch let err {
+			XCTFail("peek(upTo:<UnicodeScalar>) does not work properly: \(err)")
+		}
+	}
+	
+	func testPeekUpToCharset() {
+		let test = "hello, again!I'm daniele.And you?"
+		let validDistances = [5,6,11,8]
+		let scanner = StringScanner(test)
+		var idx = 0
+		
+		do {
+			while !scanner.isAtEnd  {
+				let currentPosition = scanner.position
+				let separatorPosition = try scanner.peek(upTo: CharacterSet(charactersIn: ",!."))
+				let distance = scanner.string.distance(from: currentPosition, to: separatorPosition)
+				try scanner.skip(length: distance+1)
+				XCTAssert( (distance == validDistances[idx]) , "Failed to validate peek(upTo:<CharacterSet>)")
+				idx += 1
+			}
+		} catch let err {
+			XCTFail("peek(upTo:<CharacterSet>) does not work properly: \(err)")
+		}
+	}
+	
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
