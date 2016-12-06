@@ -435,8 +435,8 @@ class SwiftScannerTests: XCTestCase {
 	}
 	
 	func getSamplePerformanceData() -> String {
-		let filePath =  Bundle(for: SwiftScannerTests.self).path(forResource: "sample_file", ofType: "html")
-		let source = try! String(contentsOfFile: filePath!)
+		let filePath =  Bundle(for: SwiftScannerTests.self).path(forResource: "sample_file", ofType: "html")!
+		let source = try! String(contentsOfFile: filePath, encoding: String.Encoding.isoLatin1)
 		return source
 	}
 	
