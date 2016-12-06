@@ -434,12 +434,66 @@ class SwiftScannerTests: XCTestCase {
 		}
 	}
 	
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+	func getSamplePerformanceData() -> String {
+		let filePath =  Bundle(for: SwiftScannerTests.self).path(forResource: "sample_file", ofType: "html")
+		let source = try! String(contentsOfFile: filePath!)
+		return source
+	}
+	
+	func testPerformanceonExtractTags_NSScanner() {
+		let scanner = Scanner(string: self.getSamplePerformanceData())
+		scanner.charactersToBeSkipped = nil
+		var plain_text = ""
+		var tagsList: [String] = []
+
+		self.measure {
+			scanner.scanLocation = 0
+			while !scanner.isAtEnd {
+				if let textString = scanner.scanUpToCharacters(from: CharacterSet(charactersIn: "<")) {
+					plain_text += textString
+				} else {
+					// We have encountered a special entity or an open/close tag
+					if scanner.scanString("<") != nil {
+						// It's an open/close tag character
+						let tag = scanner.scanUpTo(">") // get the raw name of the tag
+						tagsList.append(tag!)
+						scanner.scanString(">") // go ahead
+					}
+				}
+			}
+			print("testPerformanceonExtractTags_NSScanner: \(tagsList.count) tags found")
+			tagsList.removeAll()
+		}
+	}
+	
+	func testPerformanceOnExtractTags() {
+		let scanner = StringScanner(self.getSamplePerformanceData())
+		var plain_text = ""
+		var tagsList: [String] = []
+
+		self.measure {
+			do {
+				scanner.reset()
+				while !scanner.isAtEnd {
+					if let text = try scanner.scan(upTo: CharacterSet(charactersIn: "<")) {
+						plain_text += text
+					} else {
+						try! scanner.scanChar()
+						let endTag = try! scanner.scan(upTo: CharacterSet(charactersIn: ">"))
+						guard let tag = endTag else {
+							continue
+						}
+						tagsList.append(tag)
+						try! scanner.scanChar()
+					}
+				}
+				print("testPerformanceOnExtractTags: \(tagsList.count) tags found")
+				tagsList.removeAll()
+			} catch let err {
+				print("Error: \(err)")
+			}
+		}
+	}
+	
 }
 

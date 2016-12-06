@@ -137,6 +137,7 @@ public class StringScanner {
 	///
 	/// - Returns: the next scalar
 	/// - Throws: throw .eof if reached
+	@discardableResult
 	public func scanChar() throws -> UnicodeScalar {
 		guard self.position != self.string.endIndex else {
 			throw StringScannerError.eof
