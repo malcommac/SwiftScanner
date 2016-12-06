@@ -14,18 +14,28 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>SwiftScannerTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>084635E01DF6D60000BE9EF1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>08906C491DF1A90400FC4209</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>08906C5C1DF1BBDD00FC4209</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 	</dict>
 </dict>
