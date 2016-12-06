@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "StringScanner.move(peek : Bool, accumulate : Bool, untilIn : CharacterSet) throws -&gt; (index : String.UnicodeScalarView.Index, string : String?):StringScanner.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StringScanner.(move(peek : Bool, upTo : String) throws -&gt; (index : String.UnicodeScalarView.Index, string : String?)).(closure #1):StringScanner.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.string[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "StringScanner.scanHexInt(digits : HexDigits) throws -&gt; Int:StringScanner.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SwiftScannerTests.testScanUpToString() -&gt; ():SwiftScannerTests.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

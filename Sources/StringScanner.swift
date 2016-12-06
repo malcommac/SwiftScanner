@@ -84,7 +84,7 @@ public class StringScanner {
 	/// Number of scalars consumed up to `position`
 	/// Since String.UnicodeScalarView.Index is not a RandomAccessIndex,
 	/// this makes determining the position *much* easier)
-	private var consumed: Int
+	public fileprivate(set) var consumed: Int
 	
 	/// Return true if scanner reached the end of the string
 	public var isAtEnd: Bool {
@@ -434,7 +434,7 @@ public class StringScanner {
 	//--------------------
 	
 	@discardableResult
-	public func move(_ length: Int = 1, accumulate: Bool) throws -> (index: SIndex, string: String?) {
+	private func move(_ length: Int = 1, accumulate: Bool) throws -> (index: SIndex, string: String?) {
 		
 		if length == 1 && self.position != self.string.endIndex {
 			// Special case if proposed length is a single character
@@ -544,7 +544,7 @@ public class StringScanner {
 	///   - test: test
 	/// - Returns: throw .eof or .notFound
 	@discardableResult
-	public func move(peek: Bool, accumulate: Bool, untilTrue test: ((UnicodeScalar) -> (Bool)) ) -> (index: SIndex, string: String?) {
+	private func move(peek: Bool, accumulate: Bool, untilTrue test: ((UnicodeScalar) -> (Bool)) ) -> (index: SIndex, string: String?) {
 		return try! self.session(peek: peek, accumulate: accumulate, block: { i,c in
 			while i != self.string.endIndex {
 				if test(self.string[i]) == false { // test is not passed, we return
@@ -590,11 +590,11 @@ public class StringScanner {
 			mainLoop : while i != endStringIndex {
 				// Iterate all over the strings searching for first occourence of the first char of the string to search
 				while self.string[i] != firstSearchChar {
+					i = self.string.index(after: i) // move to the next item
+					c += 1 // increment consumed chars
 					if i == endStringIndex { // we have reached the end of the scanner's string
 						throw StringScannerError.eof
 					}
-					i = self.string.index(after: i) // move to the next item
-					c += 1 // increment consumed chars
 				}
 				// Okay we have found first char of our search string into our data
 				
