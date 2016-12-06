@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="https://raw.githubusercontent.com/malcommac/SwiftScanner/develop/swift_scanner.png" width=223px height=194 alt="SwiftScanner" title="SwiftScanner">
+  <img src="https://raw.githubusercontent.com/malcommac/SwiftScanner/develop/swift_scanner_logo.png" width=245px height=268px alt="SwiftScanner" title="SwiftScanner">
 </p>
 
 # SwiftScanner
