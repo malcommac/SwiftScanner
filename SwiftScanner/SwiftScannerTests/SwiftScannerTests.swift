@@ -245,7 +245,192 @@ class SwiftScannerTests: XCTestCase {
 				idx += 1
 			}
 		} catch let err {
-			XCTFail("peek(upTo:<CharacterSet>) does not work properly: \(err)")
+			guard let error = err as? StringScannerError else { return }
+			if case .eof = error { // handle last scanner.skip(length:)
+				return
+			}
+			XCTFail("peek(upTo:<CharacterSet>) does not work properly: \(error)")
+		}
+	}
+	
+	func testPeekUpUntilCharset() {
+		let test = "HELLOman!"
+		let scanner = StringScanner(test)
+
+		do {
+			let startPosition = scanner.position
+			let endPosition = try scanner.peek(untilIn: CharacterSet.uppercaseLetters)
+			let distance = scanner.string.distance(from: startPosition, to: endPosition)
+			XCTAssert( (distance == 5) , "Failed to validate peek(untilIn:<CharacterSet>)")
+		} catch let err {
+			XCTFail("peek(untilIn:<CharacterSet>) does not work properly: \(err)")
+		}
+	}
+	
+	func testPeekUpToString() {
+		let test = "Never be satisfied 💪 and always push yourself!"
+		let scanner = StringScanner(test)
+		do {
+			let startPosition = scanner.position
+			let endPosition = try scanner.peek(upTo: "💪")
+			let distance = scanner.string.distance(from: startPosition, to: endPosition)
+			XCTAssert( (distance == 19) , "Failed to validate peek(upTo:String)")
+		} catch let err {
+			XCTFail("peek(upTo:String) does not work properly: \(err)")
+		}
+	}
+	
+	func testScanUntilTrueOnTest() {
+		let test = "Never be satisfied 💪 and always push yourself! 😎 Do the things people say cannot be done"
+		let validated = ["Never be satisfied "," and always push yourself! "," Do the things people say cannot be done"]
+		let delimiters = CharacterSet(charactersIn: "💪😎")
+		let scanner = StringScanner(test)
+		var idx = 0
+		
+		do {
+			while !scanner.isAtEnd {
+				let block = scanner.scan(untilTrue: { char in
+					return (delimiters.contains(char) == false)
+				})
+				XCTAssert( (block == validated[idx]) , "Failed to validate scan(untilTrue:)")
+				try scanner.skip()
+				idx += 1
+			}
+		} catch let err {
+			guard let error = err as? StringScannerError else { return }
+			if case .eof = error { // handle last scanner.skip(length:)
+				return
+			}
+			XCTFail("scan(untilTrue:) does not work properly: \(error)")
+		}
+	}
+	
+	func testPeekUntilTrueOnTest() {
+		let test = "I'm very 💪 and 😎 Go!"
+		let delimiters = CharacterSet(charactersIn: "💪😎")
+		var validatedDistances = [9,5,4]
+		let scanner = StringScanner(test)
+		var idx = 0
+		
+		do {
+			while !scanner.isAtEnd {
+				let prevIndex = scanner.position
+				let finalIndex = scanner.peek(untilTrue: { char in
+					return (delimiters.contains(char) == false)
+				})
+				let distance = scanner.string.distance(from: prevIndex, to: finalIndex)
+				XCTAssert( (distance == validatedDistances[idx]) , "Failed to validate peek(untilTrue:)")
+				try scanner.skip(length: distance + 1)
+				idx += 1
+			}
+		} catch let err {
+			guard let error = err as? StringScannerError else { return }
+			if case .eof = error { // handle last scanner.skip(length:)
+				return
+			}
+			XCTFail("scan(untilTrue:) does not work properly: \(error)")
+		}
+	}
+	
+	func testMatch() {
+		let test_match = "hello man! push yourself!"
+		let scanner = StringScanner(test_match)
+		
+		// test match
+		do {
+			try scanner.match("hello man!")
+			XCTAssertTrue(true)
+		} catch let err {
+			XCTFail("match(<String>) does not work properly: \(err)")
+		}
+		
+		// test don't match
+		scanner.reset() // reset from the start
+		try! scanner.scan(upTo: "! ") // move to the next token
+		try! scanner.skip(length: 2)
+		do {
+			try scanner.match("hello man")
+			XCTFail("match(<String>) does not work properly")
+		} catch {
+			XCTAssertTrue(true)
+		}
+	}
+	
+	func testReset() {
+		let test = "hello man! push yourself"
+		
+		func randomNumber(range: Range<Int>) -> Int {
+			return Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound))) + range.lowerBound
+		}
+		
+		let scanner = StringScanner(test)
+		let length = test.characters.count
+		
+		var idx = 0
+		do {
+			while idx < 10 {
+				let distance = randomNumber(range: 0..<length)
+				try scanner.skip(length: distance)
+				XCTAssert( (scanner.consumed == distance) , "Failed to validate skip(length:)")
+				scanner.reset()
+				XCTAssert( (scanner.consumed == 0 && scanner.string.startIndex == scanner.position) , "Failed to validate reset()")
+				idx += 1
+			}
+		} catch {
+			XCTFail("skip(length:) does not work properly")
+		}
+	}
+	
+	func testBackLength() {
+		let test = "a........b....c.."
+		let validatedLines = ["c","b","a"]
+		let backLenghts = [3,5,9]
+		var idx = 0
+		
+		let scanner = StringScanner(test)
+		do {
+			scanner.peekAtEnd() // null termination index
+			while true {
+				if idx >= validatedLines.count {
+					break
+				}
+				let backLen = backLenghts[idx]
+				try scanner.back(length: backLen)
+				let scanner_char = try scanner.scanChar()
+				let valid_char = validatedLines[idx]
+				let isValid = (String(scanner_char) == valid_char)
+				XCTAssert( isValid, "Failed to validate back()")
+				try scanner.back()
+				idx += 1
+			}
+		} catch {
+			XCTFail("back() does not work properly")
+		}
+	}
+	
+	func testBack() {
+		let test = "hello, i'm daniele and this is a great library!"
+		let scanner = StringScanner(test)
+		
+		do {
+			scanner.peekAtEnd() // null termination index
+			try scanner.back() // back from null termination char
+			var positionInChar = 1 // back from null termination char
+			while true {
+				let test_charIdx = test.unicodeScalars.index(test.unicodeScalars.endIndex, offsetBy: -positionInChar)
+				let test_char = test.unicodeScalars[test_charIdx]
+				let scanner_char = scanner.string[scanner.position]
+				XCTAssert( (test_char == scanner_char) , "Failed to validate back()")
+				
+				if positionInChar < test.characters.count {
+					try scanner.back()
+					positionInChar += 1
+				} else {
+					break
+				}
+			}
+		} catch {
+			XCTFail("back() does not work properly")
 		}
 	}
 	
@@ -257,3 +442,4 @@ class SwiftScannerTests: XCTestCase {
     }
     
 }
+

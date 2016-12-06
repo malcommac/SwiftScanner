@@ -4,6 +4,11 @@
    <ContextStates>
       <ContextState
          contextName = "StringScanner.move(peek : Bool, accumulate : Bool, untilIn : CharacterSet) throws -&gt; (index : String.UnicodeScalarView.Index, string : String?):StringScanner.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.string[self.position]">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "StringScanner.(move(peek : Bool, upTo : String) throws -&gt; (index : String.UnicodeScalarView.Index, string : String?)).(closure #1):StringScanner.swift">
@@ -18,6 +23,9 @@
       </ContextState>
       <ContextState
          contextName = "SwiftScannerTests.testScanUpToString() -&gt; ():SwiftScannerTests.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SwiftScannerTests.testPeekUpToChar() -&gt; ():SwiftScannerTests.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

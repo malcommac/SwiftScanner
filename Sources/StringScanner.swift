@@ -81,6 +81,16 @@ public class StringScanner {
 	/// Current scanner's index position
 	public fileprivate(set) var position: SIndex
 	
+	/// Get the first index of the source string
+	public var startIndex: SIndex {
+		return self.string.startIndex
+	}
+	
+	/// Get the last index of the source string
+	public var endIndex: SIndex {
+		return self.string.endIndex
+	}
+	
 	/// Number of scalars consumed up to `position`
 	/// Since String.UnicodeScalarView.Index is not a RandomAccessIndex,
 	/// this makes determining the position *much* easier)
@@ -275,9 +285,10 @@ public class StringScanner {
 	///  If test returns `true`, the `position` increased. If `false`, the function returns.
 	///
 	/// - Parameter test: test to pass
+	/// - Returns: accumulated string
 	@discardableResult
-	public func scan(untilTrue test: ((UnicodeScalar) -> (Bool)) ) {
-		self.move(peek: false, accumulate: false, untilTrue: test)
+	public func scan(untilTrue test: ((UnicodeScalar) -> (Bool)) ) -> String {
+		return self.move(peek: false, accumulate: true, untilTrue: test).string!
 	}
 	
 	/// Read next length characters and accumulate it
@@ -325,10 +336,7 @@ public class StringScanner {
 	/// - Returns: the index at the end of the sequence
 	/// - Throws: throw .eof or .notFound
 	public func peek(untilIn charSet: CharacterSet) throws -> SIndex {
-		let prevConsumed = self.consumed
-		let prevIndex = self.position
-		let (_,_) = try self.move(peek: true, accumulate: false, untilIn: charSet)
-		let endIndex = self.string.index(prevIndex, offsetBy: (self.consumed - prevConsumed))
+		let (endIndex,_) = try self.move(peek: true, accumulate: false, untilIn: charSet)
 		return endIndex
 	}
 	
@@ -346,8 +354,8 @@ public class StringScanner {
 	///  It only peeks so current scanner's `position` is not increased at the end of the operation
 	///
 	/// - Parameter test: test to pass
-	public func peek(untilTrue test: ((UnicodeScalar) -> (Bool)) ) {
-		self.move(peek: true, accumulate: false, untilTrue: test)
+	public func peek(untilTrue test: ((UnicodeScalar) -> (Bool)) ) -> SIndex {
+		return self.move(peek: true, accumulate: false, untilTrue: test).index
 	}
 	
 	//-----------
@@ -396,6 +404,19 @@ public class StringScanner {
 	//MARK: Others
 	//------------
 	
+	/// Move scanner's `position` to the start of the string
+	public func reset() {
+		self.position = self.string.startIndex
+		self.consumed = 0
+	}
+	
+	/// Move to the index's end index
+	public func peekAtEnd() {
+		self.position = self.string.endIndex
+		let distance = self.string.distance(from: self.string.startIndex, to: self.position)
+		self.consumed = distance
+	}
+	
 	/// Attempt to advance scanner's  by length
 	/// If operation is not possible (reached the end of the string) it throws and current scanner's `position` of the index did not change
 	/// If operation succeded scanner's `position` is updated.
@@ -422,10 +443,11 @@ public class StringScanner {
 			return
 		}
 		
-		let upperLimit = (self.consumed - length)
-		while self.consumed != upperLimit {
+		var l = length
+		while l > 0 {
 			self.position = self.string.index(self.position, offsetBy: -1)
 			self.consumed -= 1
+			l -= 1
 		}
 	}
 	
