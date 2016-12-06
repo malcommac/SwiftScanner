@@ -14,17 +14,15 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let hex32 = "0x00000016"
-		let hex64 = "-12.5"
-		let s = StringScanner(hex64)
-		let x = try! s.scanFloat()
-		print(x)
-		
-		/*
-		let c = "ciao <bold>valore</bold> come <italic>va</italic>"
-		let w = try! String(contentsOfFile: Bundle.main.path(forResource: "file", ofType: "txt")!)
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+	
+		let filePath =  Bundle(for: ViewController.self).path(forResource: "sample_file", ofType: "html")
+		let source = try! String(contentsOfFile: filePath!)
 		var acc =  ""
-		let s = StringScanner(w)
+		let s = StringScanner(source)
 		do {
 			while !s.isAtEnd {
 				if let text = try s.scan(upTo: CharacterSet(charactersIn: "<")) {
@@ -32,14 +30,14 @@ class ViewController: UIViewController {
 				} else {
 					try! s.scanChar()
 					let endTag = try! s.scan(upTo: CharacterSet(charactersIn: ">"))
-					//print(endTag)
+					print(endTag)
 					try! s.scanChar()
 				}
 			}
 		} catch let err {
 			print(err)
 		}
-		print("done")*/
+		print("done")
 	}
 		
 
