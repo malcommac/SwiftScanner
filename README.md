@@ -272,9 +272,9 @@ while !scanner.isAtEnd {
 ### Other Functions
 
 <a name="matchChar" />
-#### `func match(_ char: UnicodeScalar) throws`
-Throw if the scalar at the current position don't match given scalar.
-Advance scanner's `position` to the end of the match.
+#### `func match(_ char: UnicodeScalar) -> Bool`
+Return false if the scalar at the current position don't match given scalar.
+Advance scanner's `position` to the end of the match if match.
 
 ```swift
 let scanner = StringScanner("💪 and 😎")
@@ -287,8 +287,8 @@ do {
 
 <a name="matchString" />
 #### `func match(_ match: String) throws`
-Throw if scalars starting at the current position don't match scalars in given string.
-Advance scanner's `position` to the end of the match string.
+Return false if scalars starting at the current position don't match scalars in given string.
+Advance scanner's `position` to the end of the match string if match.
 
 ```swift
 let scanner = StringScanner("I'm very 💪 and 😎 Go!")
