@@ -295,3 +295,29 @@ Run them with
 ```
 swift test
 ```
+
+## Requirements
+
+Current version is compatible with:
+
+* Swift 3.0+
+* iOS 8 or later
+* macOS 10.10 or later
+* watchOS 2.0 or later
+* tvOS 9.0 or later
+* ...and virtually any platform which is compatible with Swift 3 and implements the Swift Foundation Library
+
+
+## Credits & License
+SwiftScanner is owned and maintained by [Daniele Margutti](http://www.danielemargutti.com/).
+
+As open source creation any help is welcome!
+
+The code of this library is licensed under MIT License; you can use it in commercial products without any limitation.
+
+The only requirement is to add a line in your Credits/About section with the text below:
+
+```
+Portions SwiftScanner - http://github.com/malcommac/SwiftScanner
+Created by Daniele Margutti and licensed under MIT License.
+```
