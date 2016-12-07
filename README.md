@@ -278,11 +278,7 @@ Advance scanner's `position` to the end of the match if match.
 
 ```swift
 let scanner = StringScanner("💪 and 😎")
-do {
-		try scanner.match("😎") // This does not match! throw is catched
-} catch let err {
-		XCTFail("String does not match: \(err)")
-}
+let match = scanner.match("😎") // return false
 ```
 
 <a name="matchString" />
@@ -292,11 +288,7 @@ Advance scanner's `position` to the end of the match string if match.
 
 ```swift
 let scanner = StringScanner("I'm very 💪 and 😎 Go!")
-do {
-		try scanner.match("I'm very") // This match! no throw is catched
-} catch let err {
-		XCTFail("String does not match: \(err)")
-}
+scanner.match("I'm very") // return true
 ```
 
 <a name="reset" />
