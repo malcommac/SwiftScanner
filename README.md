@@ -282,7 +282,7 @@ let match = scanner.match("😎") // return false
 ```
 
 <a name="matchString" />
-#### `func match(_ match: String) throws`
+#### `func match(_ match: String) -> Bool`
 Return false if scalars starting at the current position don't match scalars in given string.
 Advance scanner's `position` to the end of the match string if match.
 
