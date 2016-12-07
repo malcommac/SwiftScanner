@@ -337,23 +337,15 @@ class SwiftScannerTests: XCTestCase {
 		let scanner = StringScanner(test_match)
 		
 		// test match
-		do {
-			try scanner.match("hello man!")
-			XCTAssertTrue(true)
-		} catch let err {
-			XCTFail("match(<String>) does not work properly: \(err)")
-		}
+		let match = scanner.match("hello man!")
+		XCTAssert( (match == true), "match(<String>) does not work properly")
 		
 		// test don't match
 		scanner.reset() // reset from the start
 		try! scanner.scan(upTo: "! ") // move to the next token
 		try! scanner.skip(length: 2)
-		do {
-			try scanner.match("hello man")
-			XCTFail("match(<String>) does not work properly")
-		} catch {
-			XCTAssertTrue(true)
-		}
+		let not_match = scanner.match("hello man")
+		XCTAssert( (not_match == false), "match(<String>) does not work properly")
 	}
 	
 	func testReset() {
