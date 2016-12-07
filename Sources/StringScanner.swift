@@ -369,12 +369,12 @@ public class StringScanner {
 	/// - Parameter char: scalar to match
 	/// - Throws: throw if does not match or index reaches eof
 	@discardableResult
-	public func match(_ char: UnicodeScalar) throws {
+	public func match(_ char: UnicodeScalar) -> Bool {
 		guard self.position != self.string.endIndex else {
-			throw StringScannerError.eof
+			return false
 		}
 		if self.string[self.position] != char {
-			throw StringScannerError.notFound
+			return false
 		}
 		// Advance by one scalar, the one we matched
 		self.position = self.string.index(after: self.position)
@@ -386,19 +386,23 @@ public class StringScanner {
 	///
 	/// - Parameter string: string to match
 	/// - Throws: throw if does not match or index reaches eof
-	public func match(_ match: String) throws {
-		try self.session(peek: false, accumulate: false, block: { i,c in
-			try match.unicodeScalars.forEach({ char in
+	public func match(_ match: String) -> Bool {
+		var result: Bool = true
+		try! self.session(peek: false, accumulate: false, block: { i,c in
+			for char in match.unicodeScalars {
 				if i == self.string.endIndex {
-					throw StringScannerError.eof
+					result = false
+					break
 				}
 				if self.string[i] != char {
-					throw StringScannerError.notFound
+					result = false
+					break
 				}
 				i = self.string.index(after: i)
 				c += 1
-			})
+			}
 		})
+		return result
 	}
 	
 	//------------
