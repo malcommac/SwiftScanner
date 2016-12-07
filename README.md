@@ -50,6 +50,13 @@ API Documentation
 * **[skip(length: Int)](#skipLength)**
 * **[back(length: Int)](#backLength)**
 
+Other
+-------
+* **[Installation](#installation)**
+* **[Tests](#tests)**
+* **[Requirements](#requirements)**
+* **[Credits](#credits)**
+
 ### `scan` functions
 
 <a name="scanChar" />
@@ -312,6 +319,7 @@ Attempt to advance the position back by length
 If operation fails scanner's `position` is not touched
 If operation succeded scaner's `position` is modified according to new value
 
+<a name="installation" />
 ## Installation
 You can install Swiftline using CocoaPods, carthage and Swift package manager
 
@@ -334,6 +342,8 @@ Add swiftline as dependency in your `Package.swift`
     ]
   )
 ```
+
+<a name="tests" />
 ## Tests
 Tests can be found [here](https://github.com/malcommac/SwiftScanner/tree/master/Tests). 
 
@@ -342,6 +352,7 @@ Run them with
 swift test
 ```
 
+<a name="requirements" />
 ## Requirements
 
 Current version is compatible with:
@@ -354,6 +365,7 @@ Current version is compatible with:
 * ...and virtually any platform which is compatible with Swift 3 and implements the Swift Foundation Library
 
 
+<a name="credits" />
 ## Credits & License
 SwiftScanner is owned and maintained by [Daniele Margutti](http://www.danielemargutti.com/).
 
