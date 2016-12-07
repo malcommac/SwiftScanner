@@ -12,7 +12,7 @@
 
 
 # SwiftScanner
-`StringScanner` is a pure native Swift implementation of a string scanner; with no dependecies, full unicode support (who does not love emoji?), lots of useful featurs and swift in mind, StringScanner is a good alternative to built-in Apple's `NSScanner`.
+`SwiftScanner` is a pure native Swift implementation of a string scanner; with no dependecies, full unicode support (who does not love emoji?), lots of useful featurs and swift in mind, StringScanner is a good alternative to built-in Apple's `NSScanner`.
 
 <p align="center" >★★ <b>Star our github repository to help us!</b> ★★</p>
 
