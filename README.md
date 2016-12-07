@@ -25,10 +25,34 @@ SwiftScanner is initialized with a string and mantain an internal index used to 
 Results of these operations returns collected String or Indexes.
 If operation fail due to an error (ie. `eof`, `notFound`, `invalidInt`...) and exception is thrown, in pure Swift style.
 
-## Documentation
+API Documentation
+-------
+
+* **[scanChar()](#scanChar)**
+* **[scanInt()](#scanInt)**
+* **[scanFloat()](#scanFloat)**
+* **[scanHexInt()](#scanHexInt)**
+* **[scan(upTo: UnicodeScalar)](#scanUpToChar)**
+* **[scan(upTo: CharacterSet)](#scanUpToCharset)**
+* **[scan(untilIn: CharacterSet)](#scanUntilInCharset)**
+* **[scan(upTo: String)](#scanUpToString)**
+* **[scan(until: Test)](#scanUntilTrue)**
+* **[scan(length: Int)](#scanLenght)**
+* **[peek(upTo: UnicodeScalar)](#peekUpToChar)**
+* **[peek(upTo: CharacterSet)](#peekUpToCharset)**
+* **[peek(untilIn: CharacterSet)](#peekUpUntilInCharset)**
+* **[peek(upTo: String)](#peekUpToString)**
+* **[peek(until: Test)](#peekUpUntil)**
+* **[match(UnicodeScalar)](#matchChar)**
+* **[match(String)](#matchString)**
+* **[reset()](#reset)**
+* **[peekAtEnd()](#peekAtEnd)**
+* **[skip(length: Int)](#skipLength)**
+* **[back(length: Int)](#backLength)**
 
 ### `scan` functions
 
+<a name="scanChar" />
 #### `func scanChar() throws -> UnicodeScalar`
 `scanChar` allows you to scan the next character after the current's scanner `position` and return it as `UnicodeScalar`.
 If operation succeded internal scanner's `position` is advanced by 1 character (as unicode).
@@ -40,6 +64,7 @@ let scanner = StringScanner("Hello this is SwiftScanner")
 let firstChar = try! scanner.scanChar() // get 'H'
 ```
 
+<a name="scanInt" />
 #### `func scanInt() throws -> Int`
 Scan the next integer value after the current scanner's `position`; consume scalars from {0...9} until a non numeric value is encountered. Return the integer representation in base 10.
 Throw `.invalidInt` if scalar at current position is not in allowed range (may also return `.eof`).
@@ -52,6 +77,7 @@ let scanner = StringScanner("I've 15 apples")
 let parsedInt = try! scanner.scanChar() // get Int=15
 ```
 
+<a name="scanFloat" />
 #### `func scanFloat() throws -> Float`
 Scan for a float value (in format ##.##) and convert it to a valid Floast.
 If scan succeded scanner's `position` is updated at the end of the represented string, otherwise an exception (`.invalidFloat`, `.eof`) is thrown and index is not touched.
@@ -62,6 +88,7 @@ let scanner = StringScanner("I've 45.54 $")
 let parsedFloat = try! scanner.scanFloat() // get Int=45.54
 ```
 
+<a name="scanHexInt" />
 #### `func scanHexInt(digits: BitDigits) throws -> Int`
 Scan an HEX digit expressed in these formats:
 
@@ -82,6 +109,7 @@ let value = try! scanner.scanHexInt(.bit16) // get Int=2345
 let scanner = StringScanner("#0x0000000000564534")
 let value = try! scanner.scanHexInt(.bit64) // get Int=5653812
 ```
+<a name="scanUpToChar" />
 #### `public func scan(upTo char: UnicodeScalar) throws -> String?`
 Scan until given character is found starting from current scanner `position` till the end of the source string.
 Scanner's `position` is updated only if character is found and set just before it.
@@ -92,6 +120,8 @@ Example:
 let scanner = StringScanner("Hello <bold>Daniele</bold>")
 let partialString = try! scanner.scan(upTo: "<bold>") // get "Hello "
 ```
+
+<a name="scanUpToCharset" />
 #### `func scan(upTo charSet: CharacterSet) throws -> String?`
 Scan until given character's is found.
 Index is reported before the start of the sequence, scanner's `position` is updated only if sequence is found.
@@ -103,6 +133,7 @@ let scanner = StringScanner("Hello, I've at least 15 apples")
 let partialString = try! scanner.scan(upTo: CharacterSet.decimalDigits) // get "Hello, I've at least "
 ```
 
+<a name="scanUntilInCharset" />
 #### `func scan(untilIn charSet: CharacterSet) throws -> String?`
 Scan, starting from scanner's `position` until the next character of the scanner is contained into given character set.
 Scanner's `position` is updated automatically at the end of the sequence if validated, otherwise it will not touched.
@@ -113,6 +144,7 @@ let scanner = StringScanner("HELLO i'm mark")
 let partialString = try! scanner.scan(untilIn: CharacterSet.lowercaseLetters) // get "HELLO"
 ```
 
+<a name="scanUpToString" />
 #### `func scan(upTo string: String) throws -> String?`
 Scan, starting from scanner's `position`  until specified string is encountered.
 Scanner's `position` is updated automatically at the end of the sequence if validated, otherwise it will not touched.
@@ -122,6 +154,8 @@ Example:
 let scanner = StringScanner("This is a simple test I've made")
 let partialString = try! scanner.scan(upTo: "I've") // get "This is a simple test "
 ```
+
+<a name="scanUntilTrue" />
 #### `func scan(untilTrue test: ((UnicodeScalar) -> (Bool))) -> String`
 Scan and consume at the scalar starting from current `position`, testing it with function test.
 If test returns `true`, the `position` increased.
@@ -144,6 +178,7 @@ while !scanner.isAtEnd {
 }
 ```
 
+<a name="scanLenght" />
 #### `func scan(length: Int=1) -> String`
 Read next length characters and accumulate it
 If operation is succeded scanner's `position` are updated according to consumed scalars.
@@ -159,6 +194,7 @@ let partialString = scanner.scan(5) // "Never"
 Peek functions are the same as concept of `scan()` but unless it it does not update internal scanner's `position` index.
 These functions usually return only `starting index` of matched pattern.
 
+<a name="peekUpToChar" />
 #### `func peek(upTo char: UnicodeScalar) -> String.UnicodeScalarView.Index`
 Peek until chracter is found starting from current scanner's `position`.
 Scanner's `position` is never updated.
@@ -170,6 +206,7 @@ let scanner = StringScanner("Never be satisfied")
 let index = try! scanner.peek(upTo: "b") // return 6
 ```
 
+<a name="peekUpToCharset" />
 #### `func peek(upTo charSet: CharacterSet) -> String.UnicodeScalarView.Index`
 Peek until one the characters specified by set is encountered
 Index is reported before the start of the sequence, but scanner's `position` is never updated.
@@ -181,6 +218,7 @@ let scanner = StringScanner("You are in queue: 123 is your position")
 let index = try! scanner.peek(upTo: CharacterSet.decimalDigits) // return 18
 ```
 
+<a name="peekUpUntilInCharset" />
 #### `func peek(untilIn charSet: CharacterSet) -> String.UnicodeScalarView.Index`
 Peek until the next character of the scanner is contained into given.
 Scanner's `position` is never updated.
@@ -191,6 +229,7 @@ let scanner = StringScanner("654 apples")
 let index = try! scanner.peek(untilIn: CharacterSet.decimalDigits) // return 3
 ```
 
+<a name="peekUpToString" />
 #### `func peek(upTo string: String) -> String.UnicodeScalarView.Index`
 Iterate until specified string is encountered without updating indexes.
 Scanner's `position` is never updated but it's reported the index just before found occourence.
@@ -201,6 +240,7 @@ let scanner = StringScanner("654 apples in the bug")
 let index = try! scanner.peek(upTo: "in") // return 11
 ```
 
+<a name="peekUpUntil" />
 #### `func peek(untilTrue test: ((UnicodeScalar) -> (Bool))) -> String.UnicodeScalarView.Index`
 Peeks at the scalar at the current position, testing it with function test.
 It only peeks so current scanner's `position` is not increased at the end of the operation
@@ -224,6 +264,7 @@ while !scanner.isAtEnd {
 ```
 ### Other Functions
 
+<a name="matchChar" />
 #### `func match(_ char: UnicodeScalar) throws`
 Throw if the scalar at the current position don't match given scalar.
 Advance scanner's `position` to the end of the match.
@@ -237,6 +278,7 @@ do {
 }
 ```
 
+<a name="matchString" />
 #### `func match(_ match: String) throws`
 Throw if scalars starting at the current position don't match scalars in given string.
 Advance scanner's `position` to the end of the match string.
@@ -250,17 +292,21 @@ do {
 }
 ```
 
+<a name="reset" />
 #### `func reset()`
 Move scanner's internal `position` to the start of the string.
 
+<a name="peekAtEnd" />
 #### `func peekAtEnd()`
 Move to the index's end index.
 
+<a name="skipLength" />
 #### `func skip(length: Int = 1) throws`
 Attempt to advance scanner's  by length
 If operation is not possible (reached the end of the string) it throws and current scanner's `position` of the index did not change
 If operation succeded scanner's `position` is updated.
 
+<a name="backLength" />
 #### `func back(length: Int = 1) throws`
 Attempt to advance the position back by length
 If operation fails scanner's `position` is not touched
