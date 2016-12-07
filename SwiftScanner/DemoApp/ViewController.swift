@@ -14,6 +14,10 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		let scanner = StringScanner("I've 15.25 apples")
+		try! scanner.skip(length: 5)
+		let firstChar = try! scanner.scanFloat() // get 'H'
+		print("")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
