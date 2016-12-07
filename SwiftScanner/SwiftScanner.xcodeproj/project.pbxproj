@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		084635E41DF6D60000BE9EF1 /* SwiftScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084635E31DF6D60000BE9EF1 /* SwiftScannerTests.swift */; };
 		084635E61DF6D60000BE9EF1 /* SwiftScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; };
 		084635ED1DF6D7AC00BE9EF1 /* SwiftScanner.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084635EF1DF7298600BE9EF1 /* sample_file.html in Resources */ = {isa = PBXBuildFile; fileRef = 084635EE1DF7298600BE9EF1 /* sample_file.html */; };
-		084635F11DF72D3200BE9EF1 /* NSScanner+Extenions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084635F01DF72D3200BE9EF1 /* NSScanner+Extenions.swift */; };
 		08906C4F1DF1A90400FC4209 /* SwiftScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 08906C4D1DF1A90400FC4209 /* SwiftScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08906C601DF1BBDE00FC4209 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C5F1DF1BBDE00FC4209 /* AppDelegate.swift */; };
 		08906C621DF1BBDE00FC4209 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C611DF1BBDE00FC4209 /* ViewController.swift */; };
@@ -21,6 +18,8 @@
 		08906C711DF1BBEB00FC4209 /* SwiftScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; };
 		08906C731DF1BC4600FC4209 /* SwiftScanner.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08906C771DF1C56C00FC4209 /* StringScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08906C751DF1C56C00FC4209 /* StringScanner.swift */; };
+		08C606ED1DF817E50014E07E /* NSScanner+Extenions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C606EB1DF817E50014E07E /* NSScanner+Extenions.swift */; };
+		08C606EE1DF817E50014E07E /* TestSwiftScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C606EC1DF817E50014E07E /* TestSwiftScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,11 +65,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		082292671DF816260077BAE8 /* SwiftScannerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftScannerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		084635E11DF6D60000BE9EF1 /* SwiftScannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftScannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		084635E31DF6D60000BE9EF1 /* SwiftScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftScannerTests.swift; sourceTree = "<group>"; };
 		084635E51DF6D60000BE9EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		084635EE1DF7298600BE9EF1 /* sample_file.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = sample_file.html; path = ../../../../../../Desktop/sample_file.html; sourceTree = "<group>"; };
-		084635F01DF72D3200BE9EF1 /* NSScanner+Extenions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScanner+Extenions.swift"; sourceTree = "<group>"; };
 		08906C4A1DF1A90400FC4209 /* SwiftScanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftScanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08906C4D1DF1A90400FC4209 /* SwiftScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftScanner.h; sourceTree = "<group>"; };
 		08906C4E1DF1A90400FC4209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -81,7 +78,9 @@
 		08906C661DF1BBDE00FC4209 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08906C691DF1BBDE00FC4209 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		08906C6B1DF1BBDE00FC4209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08906C751DF1C56C00FC4209 /* StringScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringScanner.swift; path = ../../Sources/StringScanner.swift; sourceTree = "<group>"; };
+		08906C751DF1C56C00FC4209 /* StringScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringScanner.swift; path = ../Sources/StringScanner.swift; sourceTree = "<group>"; };
+		08C606EB1DF817E50014E07E /* NSScanner+Extenions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSScanner+Extenions.swift"; path = "../../Tests/SwiftScannerTests/NSScanner+Extenions.swift"; sourceTree = "<group>"; };
+		08C606EC1DF817E50014E07E /* TestSwiftScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestSwiftScanner.swift; path = ../../Tests/SwiftScannerTests/TestSwiftScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,10 +113,10 @@
 		084635E21DF6D60000BE9EF1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				084635EE1DF7298600BE9EF1 /* sample_file.html */,
-				084635E31DF6D60000BE9EF1 /* SwiftScannerTests.swift */,
 				084635E51DF6D60000BE9EF1 /* Info.plist */,
-				084635F01DF72D3200BE9EF1 /* NSScanner+Extenions.swift */,
+				08C606EB1DF817E50014E07E /* NSScanner+Extenions.swift */,
+				08C606EC1DF817E50014E07E /* TestSwiftScanner.swift */,
+				082292671DF816260077BAE8 /* SwiftScannerTests-Bridging-Header.h */,
 			);
 			name = Tests;
 			path = SwiftScannerTests;
@@ -126,7 +125,8 @@
 		08906C401DF1A90400FC4209 = {
 			isa = PBXGroup;
 			children = (
-				08906C4C1DF1A90400FC4209 /* SwiftScanner */,
+				08C606EF1DF818670014E07E /* Library */,
+				08906C4C1DF1A90400FC4209 /* Framework */,
 				08906C5E1DF1BBDE00FC4209 /* DemoApp */,
 				084635E21DF6D60000BE9EF1 /* Tests */,
 				08906C4B1DF1A90400FC4209 /* Products */,
@@ -143,13 +143,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		08906C4C1DF1A90400FC4209 /* SwiftScanner */ = {
+		08906C4C1DF1A90400FC4209 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				08906C751DF1C56C00FC4209 /* StringScanner.swift */,
 				08906C4D1DF1A90400FC4209 /* SwiftScanner.h */,
 				08906C4E1DF1A90400FC4209 /* Info.plist */,
 			);
+			name = Framework;
 			path = SwiftScanner;
 			sourceTree = "<group>";
 		};
@@ -164,6 +164,14 @@
 				08906C6B1DF1BBDE00FC4209 /* Info.plist */,
 			);
 			path = DemoApp;
+			sourceTree = "<group>";
+		};
+		08C606EF1DF818670014E07E /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				08906C751DF1C56C00FC4209 /* StringScanner.swift */,
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +257,7 @@
 					084635E01DF6D60000BE9EF1 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = E5DU3FA699;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 					08906C491DF1A90400FC4209 = {
@@ -289,7 +298,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084635EF1DF7298600BE9EF1 /* sample_file.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,8 +325,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084635E41DF6D60000BE9EF1 /* SwiftScannerTests.swift in Sources */,
-				084635F11DF72D3200BE9EF1 /* NSScanner+Extenions.swift in Sources */,
+				08C606EE1DF817E50014E07E /* TestSwiftScanner.swift in Sources */,
+				08C606ED1DF817E50014E07E /* NSScanner+Extenions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,11 +385,14 @@
 		084635E91DF6D60000BE9EF1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = E5DU3FA699;
 				INFOPLIST_FILE = SwiftScannerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielemargutti.SwiftScannerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftScannerTests/SwiftScannerTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -389,11 +400,13 @@
 		084635EA1DF6D60000BE9EF1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = E5DU3FA699;
 				INFOPLIST_FILE = SwiftScannerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielemargutti.SwiftScannerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftScannerTests/SwiftScannerTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -576,6 +589,7 @@
 				084635EA1DF6D60000BE9EF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		08906C441DF1A90400FC4209 /* Build configuration list for PBXProject "SwiftScanner" */ = {
 			isa = XCConfigurationList;
