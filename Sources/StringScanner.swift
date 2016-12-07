@@ -379,6 +379,7 @@ public class StringScanner {
 		// Advance by one scalar, the one we matched
 		self.position = self.string.index(after: self.position)
 		self.consumed += 1
+		return true
 	}
 	
 	/// Throw if scalars starting at the current position don't match scalars in given string.
