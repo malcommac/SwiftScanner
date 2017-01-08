@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="https://raw.githubusercontent.com/malcommac/SwiftScanner/develop/swift_scanner_logo.png" width=200px height=219px alt="SwiftScanner" title="SwiftScanner">
+  <img src="https://raw.githubusercontent.com/malcommac/SwiftScanner/develop/logo.png" width=210px height=204px alt="SwiftScanner" title="SwiftScanner">
 </p>
 
 [![Build Status](https://travis-ci.org/oarrabi/SwiftScanner.svg?branch=master)](https://travis-ci.org/oarrabi/SwiftScanner)
