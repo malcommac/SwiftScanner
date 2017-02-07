@@ -80,8 +80,8 @@ If operation fails an exception is thrown.
 
 Example:
 ```swift
-let scanner = StringScanner("I've 15 apples")
-let parsedInt = try! scanner.scanChar() // get Int=15
+let scanner = StringScanner("15 apples")
+let parsedInt = try! scanner.scanInt() // get Int=15
 ```
 
 <a name="scanFloat" />
@@ -91,7 +91,7 @@ If scan succeded scanner's `position` is updated at the end of the represented s
 
 Example:
 ```swift
-let scanner = StringScanner("I've 45.54 $")
+let scanner = StringScanner("45.54 $")
 let parsedFloat = try! scanner.scanFloat() // get Int=45.54
 ```
 
