@@ -363,7 +363,9 @@ swift test
 
 Current version is compatible with:
 
-* Swift 3.0+
+* **Swift 4.x** >= 1.0.4
+* **Swift 3.x**: up to 1.0.3
+
 * iOS 8 or later
 * macOS 10.10 or later
 * watchOS 2.0 or later
