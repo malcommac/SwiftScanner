@@ -16,6 +16,20 @@
 
 <p align="center" >★★ <b>Star our github repository to help us!</b> ★★</p>
 
+## You also may like
+-------
+
+Do you like `SwiftRichString`? I'm also working on several other opensource libraries.
+
+Take a look here:
+
+* **[SwiftDate](https://github.com/malcommac/SwiftDate)** - Full features Dates & TimeZone management for iOS,macOS,tvOS and watchOS
+* **[Hydra](https://github.com/malcommac/Hydra)** - Promise, Async/Await on sterioids!
+* **[SwiftLocation](https://github.com/malcommac/SwiftLocation)** - CoreLocation and Beacon Monitoring on steroid!
+* **[SwiftScanner](https://github.com/malcommac/SwiftScanner)** - String scanner in pure Swift with full unicode support
+* **[SwiftSimplify](https://github.com/malcommac/SwiftSimplify)** - Tiny high-performance Swift Polyline Simplification Library
+* **[SwiftMsgPack](https://github.com/malcommac/SwiftMsgPack)** - MsgPack Encoder/Decoder in Swit
+
 ## Main Features
 SwiftScanner is initialized with a string and mantain an internal index used to navigate backward and forward through the string using two main concepts:
 
@@ -80,8 +94,8 @@ If operation fails an exception is thrown.
 
 Example:
 ```swift
-let scanner = StringScanner("I've 15 apples")
-let parsedInt = try! scanner.scanChar() // get Int=15
+let scanner = StringScanner("15 apples")
+let parsedInt = try! scanner.scanInt() // get Int=15
 ```
 
 <a name="scanFloat" />
@@ -91,7 +105,7 @@ If scan succeded scanner's `position` is updated at the end of the represented s
 
 Example:
 ```swift
-let scanner = StringScanner("I've 45.54 $")
+let scanner = StringScanner("45.54 $")
 let parsedFloat = try! scanner.scanFloat() // get Int=45.54
 ```
 
