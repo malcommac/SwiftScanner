@@ -78,7 +78,7 @@
 		08906C661DF1BBDE00FC4209 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08906C691DF1BBDE00FC4209 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		08906C6B1DF1BBDE00FC4209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08906C751DF1C56C00FC4209 /* StringScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringScanner.swift; path = ../Sources/StringScanner.swift; sourceTree = "<group>"; };
+		08906C751DF1C56C00FC4209 /* StringScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringScanner.swift; path = ../Sources/SwiftScanner/StringScanner.swift; sourceTree = "<group>"; };
 		08C606EB1DF817E50014E07E /* NSScanner+Extenions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSScanner+Extenions.swift"; path = "../../Tests/SwiftScannerTests/NSScanner+Extenions.swift"; sourceTree = "<group>"; };
 		08C606EC1DF817E50014E07E /* TestSwiftScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestSwiftScanner.swift; path = ../../Tests/SwiftScannerTests/TestSwiftScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
