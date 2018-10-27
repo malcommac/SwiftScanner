@@ -1,6 +1,0 @@
-version: "Apple Swift version 3.0.1 (swiftlang-800.0.58.6 clang-800.0.42.1)"
-options: "55ccdd5f7ca180ae847b47c0eb91e127"
-build_time: [534420509, 342781000]
-inputs:
-  "/Users/danielemm/Repository/Code/Github/SwiftScanner/Tests/SwiftScannerTests/NSScanner+Extenions.swift": [534360633, 0]
-  "/Users/danielemm/Repository/Code/Github/SwiftScanner/Tests/SwiftScannerTests/TestSwiftScanner.swift": [534420297, 0]
