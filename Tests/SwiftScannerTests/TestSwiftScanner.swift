@@ -425,6 +425,22 @@ class SwiftScannerTests: XCTestCase {
 			XCTFail("back() does not work properly")
 		}
 	}
+
+	func testSkipSpaces() {
+		let test = "1 2 3 4     5    \t  6   7"
+		let scanner = StringScanner(test)
+		var numbers = [Int]()
+		do {
+			while !scanner.isAtEnd {
+				try scanner.skip(charactersIn: .whitespaces)
+				numbers.append(try scanner.scanInt())
+			}
+		} catch {
+			XCTFail("skip(charactersIn:) does not work properly")
+		}
+
+		XCTAssertEqual(numbers, [1, 2, 3, 4, 5, 6, 7])
+	}
 	
 	/*
 	func getSamplePerformanceData() -> String {

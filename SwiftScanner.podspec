@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'SwiftScanner'
-  spec.version = '1.0.3'
+  spec.version = '1.1.0'
   spec.summary = 'Pure native Swift implementation of a string scanner; with no dependecies and full unicode support.'
   spec.homepage = 'https://github.com/malcommac/SwiftScanner'
   spec.license = { :type => 'MIT', :file => 'LICENSE' }

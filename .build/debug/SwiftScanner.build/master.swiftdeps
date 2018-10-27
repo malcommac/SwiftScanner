@@ -1,5 +1,0 @@
-version: "Apple Swift version 3.0.1 (swiftlang-800.0.58.6 clang-800.0.42.1)"
-options: "e7aa83c05c719835877454e3f96a972f"
-build_time: [534420506, 448963000]
-inputs:
-  "/Users/danielemm/Repository/Code/Github/SwiftScanner/Sources/StringScanner.swift": [534381011, 0]
