@@ -433,6 +433,18 @@ public class StringScanner {
 		try self.move(length, accumulate: false)
 	}
 
+	/// Attempt to advance scanner past all characters in the provided
+	/// character set.
+	/// If the operation is not possible (reached the end of the string),
+	/// it throws and current scanner's `position` of the index did not change
+	/// If operation succeded, the scanner's `position` is updated.
+	///
+	/// - Parameter characterSet: The set of characters to skip.
+	/// - Throws: throw if .eof
+	public func skip(charactersIn characterSet: CharacterSet) throws {
+		_ = try self.move(peek: false, accumulate: false, whileIn: characterSet)
+	}
+
 	/// Attempt to advance the position back by length
 	/// If operation fails scanner's `position` is not touched
 	/// If operation succeded scaner's`position` is modified according to new value
@@ -523,7 +535,25 @@ public class StringScanner {
 			}
 		})
 	}
-	
+
+	/// Move the index while scalar at current index is part of passed char set,
+	/// then return the index after it and the accumulated string (if requested)
+	///
+	/// - Parameters:
+	///   - peek: peek to perform a non destructive operation to scanner's `position`
+	///   - accumulate: accumulate return a valid string in output sum of the scan operation
+	///   - charSet: character set target of the operation
+	/// - Returns: index and content of the string
+	/// - Throws: throw .notFound if string is not found or .eof if end of file is reached
+	private func move(peek: Bool, accumulate: Bool,
+	                  whileIn charSet: CharacterSet) throws -> (index: SIndex, string: String?) {
+		return try self.session(peek: peek, accumulate: accumulate, block: { i,c in
+			while i != self.string.endIndex && charSet.contains(self.string[i]) {
+				i = self.string.index(after: i)
+				c += 1
+			}
+		})
+	}
 	
 	/// Move up to passed scalar is found
 	///
