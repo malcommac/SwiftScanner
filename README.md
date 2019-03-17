@@ -336,7 +336,7 @@ You can install Swiftline using CocoaPods, carthage and Swift package manager
     pod 'SwiftScanner'
 
 ### Carthage
-    github 'malcommac/SwiftScanner'
+    github "malcommac/SwiftScanner"
 
 ### Swift Package Manager
 Add swiftline as dependency in your `Package.swift`
